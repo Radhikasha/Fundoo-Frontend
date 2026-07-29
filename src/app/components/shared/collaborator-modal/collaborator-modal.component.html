@@ -1,0 +1,57 @@
+<div class="collab-modal-overlay" (click)="onBackdropClick($event)">
+  <div class="collab-modal" (click)="$event.stopPropagation()">
+    <div class="collab-header">
+      <span class="material-icons-outlined collab-header-icon">people</span>
+      <h3 class="collab-title">Collaborators</h3>
+    </div>
+
+    <!-- Owner -->
+    <div class="collab-owner">
+      <span class="material-icons-outlined collab-avatar">account_circle</span>
+      <div class="collab-info">
+        <span class="collab-email">{{ ownerEmail }}</span>
+        <span class="collab-badge">Owner</span>
+      </div>
+    </div>
+
+    <!-- Collaborator list -->
+    <div class="collab-list">
+      <div *ngFor="let collab of collaboratorsList" class="collab-item">
+        <span class="material-icons-outlined collab-avatar">account_circle</span>
+        <span class="collab-email">{{ collab }}</span>
+        <button class="icon-btn icon-btn-sm collab-remove-btn" (click)="onRemove(collab)" title="Remove">
+          <span class="material-icons-outlined">close</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Add collaborator input -->
+    <div class="collab-input-row">
+      <span class="material-icons-outlined collab-avatar">person_add</span>
+      <input
+        type="email"
+        class="collab-input"
+        placeholder="Enter email to add"
+        [(ngModel)]="collaboratorEmail"
+        (keyup.enter)="onAdd()"
+        [disabled]="isAdding"
+      />
+      <button
+        class="collab-add-btn"
+        [disabled]="isAdding || !collaboratorEmail.trim()"
+        (click)="onAdd()"
+      >
+        <span *ngIf="!isAdding">Add</span>
+        <span *ngIf="isAdding">Adding...</span>
+      </button>
+    </div>
+
+    <!-- Error -->
+    <p class="collab-error" *ngIf="collaboratorError">{{ collaboratorError }}</p>
+
+    <!-- Done button -->
+    <div class="collab-footer">
+      <button class="collab-done-btn" (click)="onClose()">Done</button>
+    </div>
+  </div>
+</div>

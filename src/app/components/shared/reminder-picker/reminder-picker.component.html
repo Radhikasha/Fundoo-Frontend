@@ -1,0 +1,61 @@
+<div class="reminder-picker" [class.direction-up]="directionUp" (click)="stopProp($event)">
+
+  <div class="picker-header">
+    <span class="picker-title">Remind me</span>
+  </div>
+
+  <!-- Quick Options -->
+  <div class="quick-options">
+    <button
+      *ngFor="let option of quickOptions"
+      class="quick-option"
+      (click)="selectQuickOption(option)"
+    >
+      <span class="material-icons-outlined quick-icon">{{ option.icon }}</span>
+      <div class="quick-text">
+        <span class="quick-label">{{ option.label }}</span>
+        <span class="quick-sublabel">{{ option.sublabel }}</span>
+      </div>
+    </button>
+  </div>
+
+  <div class="picker-divider"></div>
+
+  <!-- Custom Date/Time Toggle -->
+  <button class="custom-toggle" (click)="toggleCustom($event)">
+    <span class="material-icons-outlined quick-icon">event</span>
+    <span class="custom-toggle-label">Pick date & time</span>
+    <span class="material-icons-outlined chevron">
+      {{ showCustom ? 'expand_less' : 'expand_more' }}
+    </span>
+  </button>
+
+  <!-- Custom Date/Time Inputs -->
+  <div class="custom-section" *ngIf="showCustom" (click)="stopProp($event)">
+    <div class="custom-inputs">
+      <input
+        type="date"
+        class="custom-input"
+        [(ngModel)]="customDate"
+        id="reminder-date-input"
+      />
+      <input
+        type="time"
+        class="custom-input"
+        [(ngModel)]="customTime"
+        id="reminder-time-input"
+      />
+    </div>
+    <button class="btn-save-custom" (click)="saveCustom($event)" [disabled]="!customDate || !customTime">
+      Save
+    </button>
+  </div>
+
+  <!-- Remove existing reminder -->
+  <div class="picker-divider" *ngIf="currentReminder"></div>
+  <button class="remove-btn" *ngIf="currentReminder" (click)="onRemove($event)">
+    <span class="material-icons-outlined quick-icon">notifications_off</span>
+    <span>Remove reminder</span>
+  </button>
+
+</div>

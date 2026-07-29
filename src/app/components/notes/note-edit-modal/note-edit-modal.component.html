@@ -1,0 +1,135 @@
+<div
+  class="modal-overlay"
+  *ngIf="editingNote"
+  (click)="onBackdropClick($event)"
+  id="edit-modal"
+>
+  <div class="modal-card" [style.backgroundColor]="editingNote.color">
+    <input
+      type="text"
+      class="modal-title"
+      [(ngModel)]="editTitle"
+      placeholder="Title"
+      id="edit-title-input"
+    />
+    <textarea
+      #contentTextarea
+      class="modal-content"
+      [(ngModel)]="editContent"
+      (input)="autoResize($event)"
+      (keyup)="autoResize($event)"
+      placeholder="Note"
+      rows="1"
+      id="edit-content-input"
+    ></textarea>
+
+    <!-- Reminder Chip inside Edit Modal -->
+    <div class="reminder-chip-modal" *ngIf="editingNote.reminder" [class.overdue]="reminderService.isOverdue(editingNote.reminder)">
+      <span class="material-icons-outlined reminder-chip-icon">alarm</span>
+      <span class="reminder-chip-text">{{ reminderService.formatReminderDisplay(editingNote.reminder) }}</span>
+      <span
+        class="material-icons-outlined reminder-chip-remove"
+        (click)="onRemoveReminder()"
+        title="Remove reminder"
+      >close</span>
+    </div>
+
+    <!-- Label Chips inside Edit Modal -->
+    <div class="note-chips" *ngIf="editingNote.labels && editingNote.labels.length > 0">
+      <span *ngFor="let label of editingNote.labels" class="label-chip">
+        <span class="label-chip-text">{{ label.name }}</span>
+        <span
+          class="material-icons-outlined label-chip-remove"
+          (click)="onRemoveLabel(label.id, $event)"
+        >close</span>
+      </span>
+    </div>
+
+    <!-- Collaborator Icons inside Edit Modal -->
+    <div class="collab-chips" *ngIf="editingNote.collaborators && editingNote.collaborators.length > 0">
+      <span
+        *ngFor="let collab of editingNote.collaborators"
+        class="collab-avatar"
+        (click)="onOpenCollaborator($event)"
+        [title]="'Shared with ' + collab"
+      >
+        <span class="collab-avatar-text">{{ getInitial(collab) }}</span>
+      </span>
+    </div>
+
+    <div class="modal-toolbar">
+      <div class="modal-toolbar-left">
+
+        <!-- Reminder Bell -->
+        <div class="color-picker-inline">
+          <button
+            class="icon-btn icon-btn-sm"
+            [class.reminder-active]="editingNote.reminder"
+            (click)="toggleReminderPicker($event)"
+            title="Remind me"
+          >
+            <span class="material-icons-outlined">{{ editingNote.reminder ? 'alarm' : 'add_alert' }}</span>
+          </button>
+          <app-reminder-picker
+            *ngIf="showReminderPicker"
+            [currentReminder]="editingNote.reminder || null"
+            [directionUp]="true"
+            (reminderSet)="onSetReminder($event)"
+            (reminderRemoved)="onRemoveReminder()"
+          ></app-reminder-picker>
+        </div>
+
+        <!-- Color Picker -->
+        <div class="color-picker-inline">
+          <button
+            class="icon-btn icon-btn-sm"
+            (click)="toggleColorPicker($event)"
+            title="Background options"
+          >
+            <span class="material-icons-outlined">palette</span>
+          </button>
+          <app-color-picker
+            *ngIf="showColorPicker"
+            [selectedColor]="editingNote.color"
+            [colors]="colors"
+            [directionUp]="true"
+            (colorSelect)="onSelectColor($event)"
+          ></app-color-picker>
+        </div>
+
+        <!-- Add Label -->
+        <div class="color-picker-inline">
+          <button
+            class="icon-btn icon-btn-sm"
+            (click)="toggleLabelMenu($event)"
+            title="Add label"
+          >
+            <span class="material-icons-outlined">label</span>
+          </button>
+          <app-label-popover
+            *ngIf="showLabelMenu"
+            [labels]="labels"
+            [noteLabels]="editingNote.labels"
+            [directionUp]="true"
+            (toggleLabel)="onToggleLabel($event)"
+            (createLabel)="onCreateLabel($event)"
+          ></app-label-popover>
+        </div>
+
+        <!-- Collaborator -->
+        <button
+          class="icon-btn icon-btn-sm"
+          [class.collaborator-active]="editingNote.collaborators && editingNote.collaborators.length > 0"
+          (click)="onOpenCollaborator($event)"
+          title="Collaborator"
+        >
+          <span class="material-icons-outlined">person_add</span>
+        </button>
+      </div>
+
+      <button class="btn-modal-close" (click)="onClose()" id="close-edit-modal">
+        Close
+      </button>
+    </div>
+  </div>
+</div>

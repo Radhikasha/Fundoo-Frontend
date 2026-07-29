@@ -1,0 +1,125 @@
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  padding-top: 8px;
+  background: #ffffff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              min-width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s ease;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  bottom: 0;
+  z-index: 50;
+  box-sizing: border-box;
+}
+
+.sidebar.collapsed {
+  width: 72px;
+  min-width: 72px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 12px 0 24px;
+  border-radius: 0 24px 24px 0;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease;
+  margin-right: 12px;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.sidebar-item:hover {
+  background: #f1f3f4;
+}
+
+.sidebar-item.active {
+  background: #feefc3;
+}
+
+.sidebar-item.active .sidebar-icon {
+  color: #202124;
+}
+
+.sidebar-item.active .sidebar-label {
+  color: #202124;
+  font-weight: 500;
+}
+
+.sidebar-icon {
+  font-size: 22px;
+  color: #5f6368;
+  min-width: 24px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.sidebar-label {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 14px;
+  color: #202124;
+  transition: opacity 0.15s ease;
+}
+
+/* ═══════════ DESKTOP COLLAPSED STATE ═══════════ */
+.sidebar.collapsed .sidebar-label {
+  opacity: 0;
+  pointer-events: none;
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-item {
+  padding: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin: 0 12px 8px 12px;
+  justify-content: center;
+}
+
+.sidebar.collapsed .sidebar-icon {
+  margin-right: 0;
+}
+
+/* ═══════════ MOBILE & TABLET OVERLAY BREAKPOINTS ═══════════ */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 280px;
+    min-width: 280px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    z-index: 200;
+    transform: translateX(0);
+  }
+
+  .sidebar.collapsed {
+    transform: translateX(-100%);
+    width: 280px;
+    min-width: 280px;
+  }
+
+  .sidebar.collapsed .sidebar-label {
+    opacity: 1;
+    pointer-events: auto;
+    display: block;
+  }
+
+  .sidebar.collapsed .sidebar-item {
+    padding: 0 12px 0 24px;
+    width: auto;
+    height: 48px;
+    border-radius: 0 24px 24px 0;
+    margin-right: 12px;
+    justify-content: flex-start;
+  }
+
+  .sidebar.collapsed .sidebar-icon {
+    margin-right: 20px;
+  }
+}

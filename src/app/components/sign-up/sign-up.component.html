@@ -1,0 +1,102 @@
+<div class="page-wrapper">
+  <div class="signup-card">
+    <div class="form-side">
+      <h1 class="logo">
+        <span class="f">F</span><span class="u">u</span><span class="n">n</span><span class="d1">d</span><span class="o1">o</span><span class="o2">o</span>
+      </h1>
+
+      <h2 class="title">Create your Fundoo Account</h2>
+      <p class="subtitle">to continue to Gmail</p>
+
+      <form (ngSubmit)="onSubmit()" #signUpForm="ngForm"> 
+        <div class="row two-col">
+          <div class="input-group">
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First name*"
+              [(ngModel)]="firstName" 
+              required
+              class="text-input"
+              [class.input-error]="firstNameError"
+            />
+            <p class="error" *ngIf="firstNameError">{{ firstNameError }}</p>
+          </div>
+          <div class="input-group">
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last name*"
+              [(ngModel)]="lastName"
+              required
+              class="text-input"
+              [class.input-error]="lastNameError"
+            />
+            <p class="error" *ngIf="lastNameError">{{ lastNameError }}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email*"
+            [(ngModel)]="email"
+            required
+            class="text-input full"
+            [class.input-error]="emailError"
+          />
+        </div>
+        <p class="error" *ngIf="emailError">{{ emailError }}</p>
+
+        <div class="row two-col">
+          <div class="input-group">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              name="password"
+              placeholder="Password*"
+              [(ngModel)]="password"
+              required
+              class="text-input"
+              [class.input-error]="passwordError"
+            />
+            <p class="error" *ngIf="passwordError">{{ passwordError }}</p>
+          </div>
+          <div class="input-group">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              name="confirmPassword"
+              placeholder="Confirm Password*"
+              [(ngModel)]="confirmPassword"
+              required
+              class="text-input"
+              [class.input-error]="confirmPasswordError"
+            />
+            <p class="error" *ngIf="confirmPasswordError">{{ confirmPasswordError }}</p>
+          </div>
+        </div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" [(ngModel)]="showPassword" name="showPasswordToggle" (change)="toggleShowPassword()" />
+          Show password
+        </label>
+
+        <p class="error" *ngIf="errorMessage && !firstNameError && !lastNameError && !emailError && !passwordError && !confirmPasswordError">{{ errorMessage }}</p>
+
+        <div class="bottom-row">
+          <a class="link" (click)="goToSignIn()">Sign in instead</a>
+          <button type="submit" class="btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="illustration-side">
+      <img
+        src="assets/signuppageimage.jpeg"
+        alt="Fundoo sign-up illustration"
+        class="illustration-image"
+      />
+      <p class="illustration-text">One account. All of Fundoo<br/>working for you</p>
+    </div>
+  </div>
+</div>

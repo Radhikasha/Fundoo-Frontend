@@ -1,0 +1,12 @@
+<div class="color-palette" [class.color-palette-up]="directionUp" (click)="$event.stopPropagation()">
+  <div
+    *ngFor="let c of colors"
+    class="color-dot"
+    [style.backgroundColor]="c.value"
+    [class.active]="selectedColor === c.value"
+    [title]="c.name"
+    (click)="selectColor(c.value, $event)"
+  >
+    <span class="material-icons-outlined check-icon" *ngIf="selectedColor === c.value">check</span>
+  </div>
+</div>

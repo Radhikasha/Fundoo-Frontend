@@ -1,0 +1,75 @@
+<div class="collab-modal-overlay" (click)="onBackdropClick($event)">
+  <div class="label-edit-modal" (click)="$event.stopPropagation()">
+    <h3 class="label-modal-title">Edit labels</h3>
+
+    <!-- Create New Label Row -->
+    <div class="label-row label-create-row">
+      <span class="material-icons-outlined label-row-icon" (click)="onCreate()">add</span>
+      <input
+        type="text"
+        placeholder="Create new label"
+        [(ngModel)]="newLabelName"
+        (keyup.enter)="onCreate()"
+        class="label-input"
+      />
+      <button
+        class="icon-btn icon-btn-sm label-check-btn"
+        *ngIf="newLabelName.trim()"
+        (click)="onCreate()"
+      >
+        <span class="material-icons-outlined">check</span>
+      </button>
+    </div>
+
+    <!-- Existing Labels List -->
+    <div class="label-list">
+      <div *ngFor="let label of labels" class="label-row">
+        <!-- Delete button on left -->
+        <button
+          class="icon-btn icon-btn-sm label-delete-btn"
+          (click)="onDelete(label, $event)"
+          title="Delete label"
+        >
+          <span class="material-icons-outlined">delete</span>
+        </button>
+
+        <!-- Label name or edit input -->
+        <span
+          *ngIf="editingLabelId !== label.id"
+          class="label-row-text"
+          (click)="startEditing(label)"
+        >{{ label.name }}</span>
+        <input
+          *ngIf="editingLabelId === label.id"
+          type="text"
+          [(ngModel)]="editingLabelName"
+          (keyup.enter)="saveEdit(label)"
+          class="label-input"
+        />
+
+        <!-- Edit / Done pencil/check icon -->
+        <button
+          *ngIf="editingLabelId !== label.id"
+          class="icon-btn icon-btn-sm label-edit-btn"
+          (click)="startEditing(label)"
+          title="Edit label"
+        >
+          <span class="material-icons-outlined">edit</span>
+        </button>
+        <button
+          *ngIf="editingLabelId === label.id"
+          class="icon-btn icon-btn-sm label-check-btn"
+          (click)="saveEdit(label)"
+          title="Save label"
+        >
+          <span class="material-icons-outlined">check</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer Done Button -->
+    <div class="label-modal-footer">
+      <button class="collab-done-btn" (click)="onClose()">Done</button>
+    </div>
+  </div>
+</div>

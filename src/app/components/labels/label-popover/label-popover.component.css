@@ -1,0 +1,105 @@
+.label-popover-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 220px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 210;
+  padding: 8px 0;
+  margin-top: 4px;
+}
+
+.color-palette-up {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+.label-menu-title {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #202124;
+  padding: 4px 12px 8px 12px;
+}
+
+.label-menu-search {
+  position: relative;
+  padding: 0 12px 6px 12px;
+}
+
+.label-search-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 4px 24px 4px 0;
+  font-size: 13px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.label-search-input:focus {
+  border-bottom-color: #1a73e8;
+}
+
+.label-search-icon {
+  position: absolute;
+  right: 12px;
+  top: 4px;
+  font-size: 16px;
+  color: #5f6368;
+}
+
+.label-menu-list {
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.label-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #202124;
+  transition: background 0.1s;
+}
+
+.label-menu-item:hover {
+  background: #f1f3f4;
+}
+
+.checkbox-icon {
+  font-size: 18px;
+  color: #5f6368;
+}
+
+.label-item-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.label-menu-create {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #1a73e8;
+  border-top: 1px solid #e0e0e0;
+
+}
+
+.label-menu-create:hover {
+  background: #f1f3f4;
+}
+
+.label-menu-create .material-icons-outlined {
+  font-size: 18px;
+}

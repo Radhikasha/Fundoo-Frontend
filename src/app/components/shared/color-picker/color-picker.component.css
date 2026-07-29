@@ -1,0 +1,47 @@
+.color-palette {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 8px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 200;
+  margin-top: 4px;
+}
+
+.color-palette-up {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+.color-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s ease;
+}
+
+.color-dot:hover {
+  transform: scale(1.15);
+  border-color: #202124;
+}
+
+.color-dot.active {
+  border-color: #202124;
+}
+
+.check-icon {
+  font-size: 14px;
+  color: #202124;
+}

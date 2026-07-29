@@ -1,0 +1,169 @@
+<div
+  class="note-card"
+  [class.trash-card]="activeSection === 'trash'"
+  [style.backgroundColor]="note.color"
+  [class.colored]="note.color !== '#ffffff'"
+  (click)="onCardClick()"
+>
+  <div class="note-card-inner">
+    <button
+      class="pin-btn"
+      [class.pinned]="note.pinned"
+      (click)="onTogglePin($event)"
+      title="Pin note"
+      *ngIf="activeSection !== 'trash'"
+    >
+      <span class="material-icons-outlined">push_pin</span>
+    </button>
+    <h3 class="note-title" [class.empty-title]="!note.title">{{ note.title }}</h3>
+    <p class="note-content" *ngIf="note.content">{{ note.content }}</p>
+
+    <!-- Reminder Chip -->
+    <div class="reminder-chip" *ngIf="note.reminder && activeSection !== 'trash'" [class.overdue]="reminderService.isOverdue(note.reminder)">
+      <span class="material-icons-outlined reminder-chip-icon">alarm</span>
+      <span class="reminder-chip-text">{{ reminderService.formatReminderDisplay(note.reminder) }}</span>
+      <span
+        class="material-icons-outlined reminder-chip-remove"
+        (click)="onRemoveReminder(); $event.stopPropagation()"
+        title="Remove reminder"
+      >close</span>
+    </div>
+
+    <!-- Label Chips -->
+    <div class="note-chips" *ngIf="note.labels && note.labels.length > 0">
+      <span *ngFor="let label of note.labels" class="label-chip">
+        <span class="label-chip-text">{{ label.name }}</span>
+        <span
+          class="material-icons-outlined label-chip-remove"
+          *ngIf="activeSection !== 'trash'"
+          (click)="onRemoveLabel(label.id, $event)"
+        >close</span>
+      </span>
+    </div>
+
+    <!-- Collaborator Icons -->
+    <div class="collab-chips" *ngIf="note.collaborators && note.collaborators.length > 0">
+      <span
+        *ngFor="let collab of note.collaborators"
+        class="collab-avatar"
+        (click)="onOpenCollaborator($event)"
+        [title]="collab"
+      >
+        <span class="collab-avatar-text">{{ getInitial(collab) }}</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Standard Note Actions -->
+  <div
+    class="note-actions"
+    [class.actions-visible]="showColorPicker || showLabelMenu || showReminderPicker"
+    *ngIf="activeSection !== 'trash'"
+  >
+    <button
+      class="icon-btn icon-btn-sm"
+      *ngIf="activeSection !== 'archive'"
+      (click)="onArchive($event)"
+      title="Archive"
+    >
+      <span class="material-icons-outlined">archive</span>
+    </button>
+
+    <button
+      class="icon-btn icon-btn-sm"
+      *ngIf="activeSection === 'archive'"
+      (click)="onUnarchive($event)"
+      title="Unarchive"
+    >
+      <span class="material-icons-outlined">unarchive</span>
+    </button>
+
+    <!-- Reminder Bell -->
+    <div class="color-picker-inline">
+      <button
+        class="icon-btn icon-btn-sm"
+        [class.reminder-active]="note.reminder"
+        (click)="toggleReminderPicker($event)"
+        title="Remind me"
+      >
+        <span class="material-icons-outlined">{{ note.reminder ? 'alarm' : 'add_alert' }}</span>
+      </button>
+      <app-reminder-picker
+        *ngIf="showReminderPicker"
+        [currentReminder]="note.reminder || null"
+        (reminderSet)="onSetReminder($event)"
+        (reminderRemoved)="onRemoveReminder()"
+      ></app-reminder-picker>
+    </div>
+
+    <!-- Color Picker Popup Container -->
+    <div class="color-picker-inline">
+      <button
+        class="icon-btn icon-btn-sm"
+        (click)="toggleColorPicker($event)"
+        title="Background options"
+      >
+        <span class="material-icons-outlined">palette</span>
+      </button>
+      <app-color-picker
+        *ngIf="showColorPicker"
+        [selectedColor]="note.color"
+        [colors]="colors"
+        (colorSelect)="onSelectColor($event)"
+      ></app-color-picker>
+    </div>
+
+    <!-- Label Popover Menu Container -->
+    <div class="color-picker-inline">
+      <button
+        class="icon-btn icon-btn-sm"
+        (click)="toggleLabelMenu($event)"
+        title="Add label"
+      >
+        <span class="material-icons-outlined">label</span>
+      </button>
+      <app-label-popover
+        *ngIf="showLabelMenu"
+        [labels]="labels"
+        [noteLabels]="note.labels"
+        (toggleLabel)="onToggleLabel($event)"
+        (createLabel)="onCreateLabel($event)"
+      ></app-label-popover>
+    </div>
+
+    <button
+      class="icon-btn icon-btn-sm"
+      [class.collaborator-active]="note.collaborators && note.collaborators.length > 0"
+      (click)="onOpenCollaborator($event)"
+      title="Collaborator"
+    >
+      <span class="material-icons-outlined">person_add</span>
+    </button>
+
+    <button
+      class="icon-btn icon-btn-sm"
+      (click)="onTrash($event)"
+      title="Delete note"
+    >
+      <span class="material-icons-outlined">delete</span>
+    </button>
+  </div>
+
+  <!-- Trash Note Actions -->
+  <div class="note-actions trash-actions" *ngIf="activeSection === 'trash'">
+    <button
+      class="icon-btn icon-btn-sm"
+      (click)="onRestore($event)"
+      title="Restore"
+    >
+      <span class="material-icons-outlined">restore_from_trash</span>
+    </button>
+    <button
+      class="icon-btn icon-btn-sm"
+      (click)="onDeleteForever($event)"
+      title="Delete forever"
+    >
+      <span class="material-icons-outlined">delete_forever</span>
+    </button>
+  </div>
+</div>

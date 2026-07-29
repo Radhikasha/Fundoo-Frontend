@@ -1,0 +1,179 @@
+<div class="keep-container">
+
+  <!-- ═══════════ NAVBAR ═══════════ -->
+  <app-navbar
+    [activeHeaderTitle]="activeHeaderTitle"
+    [activeSection]="activeSection"
+    [(searchQuery)]="searchQuery"
+    [isGridView]="isGridView"
+    [userEmail]="userEmail"
+    (toggleSidebar)="toggleSidebar()"
+    (toggleLayout)="toggleLayout()"
+    (signOut)="signOut()"
+    (refresh)="handleRefresh()"
+  ></app-navbar>
+
+  <!-- ═══════════ BODY ═══════════ -->
+  <div class="keep-body">
+
+    <!-- Mobile Drawer Backdrop Overlay -->
+    <div
+      class="sidebar-backdrop"
+      *ngIf="sidebarExpanded"
+      (click)="toggleSidebar()"
+    ></div>
+
+    <!-- ═══ SIDEBAR ═══ -->
+    <app-sidebar
+      [sidebarExpanded]="sidebarExpanded"
+      [activeSection]="activeSection"
+      [labels]="labels"
+      (sectionSelect)="setActiveSection($event)"
+      (labelSelect)="selectLabelSection($event)"
+      (openEditLabels)="openEditLabelsModal()"
+    ></app-sidebar>
+
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <main class="main-content" [class.sidebar-collapsed]="!sidebarExpanded" [class.refreshing-blink]="isRefreshing">
+
+      <!-- ── TAKE A NOTE INPUT ── -->
+      <app-note-create
+        *ngIf="activeSection === 'notes' || activeSection.startsWith('label_')"
+        [activeSection]="activeSection"
+        [selectedLabel]="selectedLabel"
+        [labels]="labels"
+        [colors]="colors"
+        (createNote)="handleCreateNote($event)"
+        (trashNewNote)="handleTrashNewNote($event)"
+        (openCollaborator)="openCollaboratorModal()"
+      ></app-note-create>
+
+      <!-- ── EMPTY STATES ── -->
+      <div class="empty-state" *ngIf="filteredNotes.length === 0">
+        <span class="material-icons-outlined empty-icon" *ngIf="activeSection === 'notes'">lightbulb</span>
+        <span class="material-icons-outlined empty-icon" *ngIf="activeSection.startsWith('label_')">label</span>
+        <span class="material-icons-outlined empty-icon" *ngIf="activeSection === 'archive'">archive</span>
+        <span class="material-icons-outlined empty-icon" *ngIf="activeSection === 'trash'">delete</span>
+        <span class="material-icons-outlined empty-icon" *ngIf="activeSection === 'reminders'">notifications_none</span>
+        <p class="empty-text" *ngIf="activeSection === 'notes' && !searchQuery">Notes you add appear here</p>
+        <p class="empty-text" *ngIf="activeSection.startsWith('label_') && !searchQuery">No notes with this label yet</p>
+        <p class="empty-text" *ngIf="searchQuery">No matching notes</p>
+        <p class="empty-text" *ngIf="activeSection === 'archive'">Your archived notes appear here</p>
+        <p class="empty-text" *ngIf="activeSection === 'trash'">No notes in Trash</p>
+        <p class="empty-text" *ngIf="activeSection === 'reminders'">Notes with upcoming reminders appear here</p>
+      </div>
+
+      <!-- ── PINNED NOTES ── -->
+      <div *ngIf="hasPinnedNotes" class="notes-section">
+        <p class="section-label">PINNED</p>
+        <div class="notes-grid" [class.list-view]="!isGridView">
+          <app-note-card
+            *ngFor="let note of pinnedNotes"
+            [note]="note"
+            [activeSection]="activeSection"
+            [labels]="labels"
+            [colors]="colors"
+            (cardClick)="openEditModal($event)"
+            (togglePin)="togglePin($event)"
+            (archiveNote)="archiveNote($event)"
+            (unarchiveNote)="unarchiveNote($event)"
+            (setColor)="setNoteColor($event)"
+            (toggleLabel)="toggleLabelForNote($event)"
+            (removeLabel)="removeLabelFromNote($event)"
+            (createLabel)="createLabelFromMenu($event)"
+            (openCollaborator)="openCollaboratorModal($event)"
+            (trashNote)="trashNote($event)"
+            (setReminder)="handleSetReminder($event)"
+            (removeReminder)="handleRemoveReminder($event)"
+          ></app-note-card>
+        </div>
+      </div>
+
+      <!-- ── OTHER NOTES ── -->
+      <div *ngIf="hasPinnedNotes && unpinnedNotes.length > 0" class="notes-section">
+        <p class="section-label">OTHERS</p>
+      </div>
+
+      <div
+        class="notes-grid"
+        [class.list-view]="!isGridView"
+        *ngIf="activeSection !== 'trash' && (hasPinnedNotes ? unpinnedNotes.length > 0 : filteredNotes.length > 0)"
+      >
+        <app-note-card
+          *ngFor="let note of (hasPinnedNotes ? unpinnedNotes : filteredNotes)"
+          [note]="note"
+          [activeSection]="activeSection"
+          [labels]="labels"
+          [colors]="colors"
+          (cardClick)="openEditModal($event)"
+          (togglePin)="togglePin($event)"
+          (archiveNote)="archiveNote($event)"
+          (unarchiveNote)="unarchiveNote($event)"
+          (setColor)="setNoteColor($event)"
+          (toggleLabel)="toggleLabelForNote($event)"
+          (removeLabel)="removeLabelFromNote($event)"
+          (createLabel)="createLabelFromMenu($event)"
+          (openCollaborator)="openCollaboratorModal($event)"
+          (trashNote)="trashNote($event)"
+          (setReminder)="handleSetReminder($event)"
+          (removeReminder)="handleRemoveReminder($event)"
+        ></app-note-card>
+      </div>
+
+      <!-- ── TRASH NOTES ── -->
+      <div
+        class="notes-grid"
+        [class.list-view]="!isGridView"
+        *ngIf="activeSection === 'trash' && filteredNotes.length > 0"
+      >
+        <app-note-card
+          *ngFor="let note of filteredNotes"
+          [note]="note"
+          [activeSection]="activeSection"
+          [labels]="labels"
+          [colors]="colors"
+          (restoreNote)="restoreNote($event)"
+          (deleteForever)="deleteForever($event)"
+        ></app-note-card>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ═══════════ EDIT NOTE MODAL ═══════════ -->
+  <app-note-edit-modal
+    [editingNote]="editingNote"
+    [labels]="labels"
+    [colors]="colors"
+    (close)="saveEditModal($event)"
+    (setColor)="setNoteColor($event)"
+    (toggleLabel)="toggleLabelForNote($event)"
+    (removeLabel)="removeLabelFromNote($event)"
+    (createLabel)="createLabelFromMenu($event)"
+    (openCollaborator)="openCollaboratorModal($event)"
+    (setReminder)="handleSetReminder($event)"
+    (removeReminder)="handleRemoveReminder($event)"
+  ></app-note-edit-modal>
+
+  <!-- ═══════════ EDIT LABELS MODAL ═══════════ -->
+  <app-edit-labels-modal
+    *ngIf="showEditLabelsModal"
+    [labels]="labels"
+    (close)="closeEditLabelsModal()"
+    (createLabel)="createLabel($event)"
+    (updateLabel)="updateLabel($event)"
+    (deleteLabel)="deleteLabel($event)"
+  ></app-edit-labels-modal>
+
+  <!-- ═══════════ COLLABORATOR MODAL ═══════════ -->
+  <app-collaborator-modal
+    *ngIf="showCollaboratorModal"
+    [note]="editingCollaboratorsNote"
+    [userEmail]="userEmail"
+    [isAdding]="isAddingCollaborator"
+    (close)="closeCollaboratorModal()"
+    (addCollaborator)="addCollaborator($event)"
+    (removeCollaborator)="removeCollaborator($event)"
+  ></app-collaborator-modal>
+
+</div>

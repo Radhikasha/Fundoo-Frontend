@@ -1,0 +1,32 @@
+<div class="label-popover-menu" [class.color-palette-up]="directionUp" (click)="$event.stopPropagation()">
+  <div class="label-menu-title">Label note</div>
+  <div class="label-menu-search">
+    <input
+      type="text"
+      placeholder="Enter label name"
+      [(ngModel)]="searchQuery"
+      class="label-search-input"
+    />
+    <span class="material-icons-outlined label-search-icon">search</span>
+  </div>
+  <div class="label-menu-list">
+    <div
+      *ngFor="let label of filteredLabels"
+      class="label-menu-item"
+      (click)="onToggleLabel(label, $event)"
+    >
+      <span class="material-icons-outlined checkbox-icon">
+        {{ isLabelChecked(label.id) ? 'check_box' : 'check_box_outline_blank' }}
+      </span>
+      <span class="label-item-text">{{ label.name }}</span>
+    </div>
+  </div>
+  <div
+    class="label-menu-create"
+    *ngIf="searchQuery.trim() && filteredLabels.length === 0"
+    (click)="onCreateLabel($event)"
+  >
+    <span class="material-icons-outlined">add</span>
+    Create "{{ searchQuery.trim() }}"
+  </div>
+</div>

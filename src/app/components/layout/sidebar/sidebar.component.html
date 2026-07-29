@@ -1,0 +1,64 @@
+<nav class="sidebar" [class.collapsed]="!sidebarExpanded" id="sidebar">
+  <!-- 1. Notes -->
+  <div
+    class="sidebar-item"
+    [class.active]="activeSection === 'notes'"
+    (click)="selectSection('notes')"
+    title="Notes"
+  >
+    <span class="material-icons-outlined sidebar-icon">lightbulb</span>
+    <span class="sidebar-label">Notes</span>
+  </div>
+
+  <!-- 2. Reminders -->
+  <div
+    class="sidebar-item"
+    [class.active]="activeSection === 'reminders'"
+    (click)="selectSection('reminders')"
+    title="Reminders"
+  >
+    <span class="material-icons-outlined sidebar-icon">notifications</span>
+    <span class="sidebar-label">Reminders</span>
+  </div>
+
+
+  <!-- 3. Labels List -->
+  <div
+    *ngFor="let label of labels"
+    class="sidebar-item"
+    [class.active]="activeSection === 'label_' + label.id"
+    (click)="selectLabel(label)"
+    [title]="label.name"
+  >
+    <span class="material-icons-outlined sidebar-icon">label</span>
+    <span class="sidebar-label">{{ label.name }}</span>
+  </div>
+
+  <!-- 4. Edit labels -->
+  <div class="sidebar-item" (click)="onOpenEditLabels()" title="Edit labels">
+    <span class="material-icons-outlined sidebar-icon">edit</span>
+    <span class="sidebar-label">Edit labels</span>
+  </div>
+
+  <!-- 5. Archive -->
+  <div
+    class="sidebar-item"
+    [class.active]="activeSection === 'archive'"
+    (click)="selectSection('archive')"
+    title="Archive"
+  >
+    <span class="material-icons-outlined sidebar-icon">archive</span>
+    <span class="sidebar-label">Archive</span>
+  </div>
+
+  <!-- 6. Trash -->
+  <div
+    class="sidebar-item"
+    [class.active]="activeSection === 'trash'"
+    (click)="selectSection('trash')"
+    title="Trash"
+  >
+    <span class="material-icons-outlined sidebar-icon">delete</span>
+    <span class="sidebar-label">Trash</span>
+  </div>
+</nav>

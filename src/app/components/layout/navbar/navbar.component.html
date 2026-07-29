@@ -1,0 +1,79 @@
+<header class="keep-header">
+  <div class="header-left">
+    <button class="icon-btn" id="menu-toggle" (click)="toggleSidebar.emit()" title="Main menu">
+      <span class="material-icons-outlined">menu</span>
+    </button>
+    <div class="brand">
+      <img *ngIf="activeSection === 'notes'"
+        src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" alt="Fundoo Notes"
+        class="brand-icon" />
+      <span class="brand-text">{{ activeHeaderTitle }}</span>
+    </div>
+  </div>
+
+  <div class="header-center">
+    <div class="search-bar" id="search-bar">
+      <span class="material-icons-outlined search-icon">search</span>
+      <input type="text" placeholder="Search" [ngModel]="searchQuery" (ngModelChange)="onSearchChange($event)"
+        class="search-input" id="search-input" />
+      <button *ngIf="searchQuery" class="icon-btn icon-btn-sm" (click)="clearSearch()" title="Clear search">
+        <span class="material-icons-outlined">close</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <button class="icon-btn" id="refresh-btn" (click)="onRefresh()" title="Refresh">
+      <span class="material-icons-outlined" [class.spinning]="isRefreshing">refresh</span>
+    </button>
+    <button class="icon-btn" id="layout-toggle" (click)="toggleLayout.emit()" title="Toggle view">
+      <span class="material-icons-outlined">{{ isGridView ? 'view_agenda' : 'grid_view' }}</span>
+    </button>
+    <div class="profile-wrapper">
+      <button class="profile-btn" id="profile-btn" (click)="toggleProfileMenu()">
+        <div class="profile-avatar-small">
+          {{ userInitial }}
+        </div>
+      </button>
+
+      <!-- ═══════════ GOOGLE-STYLE DARK PROFILE CARD ═══════════ -->
+      <div class="google-profile-card" *ngIf="showProfileMenu">
+        <!-- Top bar with email & close button -->
+        <div class="gcard-topbar">
+          <span class="gcard-email-header">{{ userEmail }}</span>
+          <button class="gcard-close-btn" (click)="showProfileMenu = false">
+            <span class="material-icons-outlined">close</span>
+          </button>
+        </div>
+
+        <!-- Center Main Profile Avatar & Greeting -->
+        <div class="gcard-main-profile">
+          <div class="gcard-avatar-ring">
+            <div class="gcard-avatar">
+              {{ userInitial }}
+            </div>
+            <div class="gcard-camera-btn">
+              <span class="material-icons-outlined">photo_camera</span>
+            </div>
+          </div>
+          <h2 class="gcard-greeting">Hi, {{ firstName }}</h2>
+        </div>
+
+        <!-- Horizontal Actions Section (Add Account & Sign Out side by side) -->
+        <div class="gcard-actions-row">
+          <button class="gcard-btn-horizontal" (click)="onAddAccount()" id="add-account-btn">
+            <span class="material-icons-outlined">person_add</span>
+            <span>Add account</span>
+          </button>
+
+          <button class="gcard-btn-horizontal" (click)="onSignOut()" id="sign-out-btn">
+            <span class="material-icons-outlined">logout</span>
+            <span>Sign out</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</header>
