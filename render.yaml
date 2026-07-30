@@ -1,0 +1,9 @@
+services:
+  - type: static
+    name: fundoo-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist/fundoo-app
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

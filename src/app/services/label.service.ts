@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/api-response.model';
 import { LabelDTO, LabelResponseDTO } from '../models/label.model';
 import { NoteResponseDTO } from '../models/note.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LabelService {
-  private baseUrl = 'http://localhost:8080/api/labels';
+  private baseUrl = `${environment.apiUrl}/labels`;
 
   constructor(private http: HttpClient) {}
 
