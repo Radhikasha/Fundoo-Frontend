@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'signup', component: SignUpComponent, canActivate: [UnauthGuard] },
   { path: 'forgot', component: ForgotPasswordComponent, canActivate: [UnauthGuard] },
   { path: 'reset-password', component: ResetPasswordComponent, canActivate: [UnauthGuard] },
+  { path: 'resetpassword', component: ResetPasswordComponent, canActivate: [UnauthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'signin' }
 ];
