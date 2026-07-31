@@ -43,7 +43,10 @@
 
       <div class="bottom-row">
         <a class="link create-account" (click)="goToSignUp()">Create account</a>
-        <button type="submit" class="btn-primary">Sign in</button>
+        <button type="submit" class="btn-primary" [disabled]="isLoading">
+          <span *ngIf="isLoading" class="btn-spinner"></span>
+          <span>{{ isLoading ? 'Signing in...' : 'Sign in' }}</span>
+        </button>
       </div>
     </form>
   </div>

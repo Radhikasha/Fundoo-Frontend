@@ -85,7 +85,10 @@
 
         <div class="bottom-row">
           <a class="link" (click)="goToSignIn()">Sign in instead</a>
-          <button type="submit" class="btn-primary">Submit</button>
+          <button type="submit" class="btn-primary" [disabled]="isLoading">
+            <span *ngIf="isLoading" class="btn-spinner"></span>
+            <span>{{ isLoading ? 'Submitting...' : 'Submit' }}</span>
+          </button>
         </div>
       </form>
     </div>

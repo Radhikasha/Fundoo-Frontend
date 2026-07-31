@@ -15,6 +15,7 @@ export class SignInComponent implements OnInit {
   passwordError = '';
   errorMessage = '';
   successMessage = '';
+  isLoading = false;
 
   private emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -50,8 +51,11 @@ export class SignInComponent implements OnInit {
 
     if (this.emailError || this.passwordError) return;
 
+    this.isLoading = true;
+
     this.userService.login({ email: this.email, password: this.password }).subscribe({
       next: (res: any) => {
+        this.isLoading = false;
         let token = typeof res === 'string' ? res : (res.data?.token || res.data || res.token);
         if (typeof token === 'string') {
           token = token.trim().replace(/^"|"$/g, '').replace(/^Bearer\s+/, '');
@@ -64,6 +68,7 @@ export class SignInComponent implements OnInit {
         this.router.navigate(['/dashboard'], { queryParams: this.route.snapshot.queryParams, replaceUrl: true });
       },
       error: (err: any) => {
+        this.isLoading = false;
         let msg = 'Invalid email or password.';
         if (typeof err.error === 'string') {
           try {

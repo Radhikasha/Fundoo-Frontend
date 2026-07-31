@@ -21,6 +21,7 @@ export class SignUpComponent implements OnInit {
   passwordError: string = '';
   confirmPasswordError: string = '';
   errorMessage: string = '';
+  isLoading: boolean = false;
 
   private namePattern = /^[a-zA-Z ]+$/;
   private emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -75,6 +76,7 @@ export class SignUpComponent implements OnInit {
     }
 
     this.errorMessage = '';
+    this.isLoading = true;
     
     const userDTO = {
       firstName: this.firstName,
@@ -85,11 +87,13 @@ export class SignUpComponent implements OnInit {
 
     this.userService.register(userDTO).subscribe({
       next: (response: any) => {
+        this.isLoading = false;
         console.log('Registration success:', response);
         this.toastService.success('Registration successful! Please sign in.');
         this.router.navigate(['/signin'], { queryParams: { registered: 'true' } });
       },
       error: (err: any) => {
+        this.isLoading = false;
         console.error('Registration failed:', err);
         this.errorMessage = this.getErrorMessage(err);
         this.toastService.error(this.errorMessage);
