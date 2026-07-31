@@ -40,7 +40,7 @@ textarea:focus {
 mark.highlight-text,
 span.highlight-text,
 .highlight-text {
-  background-color: #ffd54f !important;
+  background-color: #f5e9c2 !important;
   color: #000000 !important;
   font-weight: bold !important;
   padding: 1px 3px !important;
