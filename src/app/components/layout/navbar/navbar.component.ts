@@ -10,6 +10,7 @@ export class NavbarComponent {
   @Input() activeHeaderTitle: string = 'Fundoo Notes';
   @Input() activeSection: string = 'notes';
   @Input() searchQuery: string = '';
+  @Input() isSearching: boolean = false;
   @Input() isGridView: boolean = true;
   @Input() userEmail: string = '';
 

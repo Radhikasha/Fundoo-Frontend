@@ -13,7 +13,8 @@
 
   <div class="header-center">
     <div class="search-bar" id="search-bar">
-      <span class="material-icons-outlined search-icon">search</span>
+      <span class="material-icons-outlined search-icon" *ngIf="!isSearching">search</span>
+      <span class="material-icons-outlined search-icon search-loader-spin" *ngIf="isSearching">sync</span>
       <input type="text" placeholder="Search" [ngModel]="searchQuery" (ngModelChange)="onSearchChange($event)"
         class="search-input" id="search-input" />
       <button *ngIf="searchQuery" class="icon-btn icon-btn-sm" (click)="clearSearch()" title="Clear search">

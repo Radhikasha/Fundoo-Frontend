@@ -4,7 +4,9 @@
   <app-navbar
     [activeHeaderTitle]="activeHeaderTitle"
     [activeSection]="activeSection"
-    [(searchQuery)]="searchQuery"
+    [searchQuery]="searchQuery"
+    [isSearching]="isSearching"
+    (searchQueryChange)="onSearchQueryChange($event)"
     [isGridView]="isGridView"
     [userEmail]="userEmail"
     (toggleSidebar)="toggleSidebar()"

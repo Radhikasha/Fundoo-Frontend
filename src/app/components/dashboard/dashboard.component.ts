@@ -40,6 +40,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   searchQuery = '';
   userEmail = '';
   isRefreshing = false;
+  isSearching = false;
+  private searchTimeout: any;
 
   // Data
   notes: Note[] = [];
@@ -263,6 +265,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  onSearchQueryChange(query: string): void {
+    this.searchQuery = query;
+    this.isSearching = true;
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+    this.searchTimeout = setTimeout(() => {
+      this.isSearching = false;
+    }, 200);
+  }
+
   get filteredNotes(): Note[] {
     let result: Note[];
     switch (this.activeSection) {
@@ -283,7 +296,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.searchQuery.trim()) {
       const q = this.searchQuery.toLowerCase();
       result = result.filter(
-        n => n.title.toLowerCase().includes(q) || n.content.toLowerCase().includes(q)
+        n =>
+          n.title.toLowerCase().includes(q) ||
+          n.content.toLowerCase().includes(q) ||
+          (n.labels && n.labels.some(l => l.name.toLowerCase().includes(q))) ||
+          (n.collaborators && n.collaborators.some(c => c.toLowerCase().includes(q)))
       );
     }
     return result;
