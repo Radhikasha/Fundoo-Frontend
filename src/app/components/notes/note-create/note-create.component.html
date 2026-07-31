@@ -98,6 +98,7 @@
             [selectedColor]="newNoteColor"
             [colors]="colors"
             (colorSelect)="setNewNoteColor($event)"
+            (pickerClose)="showColorPicker = false"
           ></app-color-picker>
         </div>
 
@@ -115,6 +116,7 @@
             [labels]="labels"
             [noteLabels]="newNoteLabels"
             (toggleLabel)="toggleLabelForNewNote($event)"
+            (closePopover)="showLabelMenu = false"
           ></app-label-popover>
         </div>
 

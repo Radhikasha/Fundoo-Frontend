@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ElementRef, HostListener } from '@angular/core';
 
 export interface QuickOption {
   label: string;
@@ -25,6 +25,20 @@ export class ReminderPickerComponent implements OnInit {
   customDate = '';
   customTime = '';
   showCustom = false;
+
+  constructor(private elementRef: ElementRef) {}
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.elementRef.nativeElement.contains(event.target as Node)) {
+      this.pickerClose.emit();
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.pickerClose.emit();
+  }
 
   ngOnInit(): void {
     this.buildQuickOptions();

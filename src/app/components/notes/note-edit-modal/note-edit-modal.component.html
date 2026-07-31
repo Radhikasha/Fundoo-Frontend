@@ -76,6 +76,7 @@
             [directionUp]="true"
             (reminderSet)="onSetReminder($event)"
             (reminderRemoved)="onRemoveReminder()"
+            (pickerClose)="showReminderPicker = false"
           ></app-reminder-picker>
         </div>
 
@@ -94,6 +95,7 @@
             [colors]="colors"
             [directionUp]="true"
             (colorSelect)="onSelectColor($event)"
+            (pickerClose)="showColorPicker = false"
           ></app-color-picker>
         </div>
 
@@ -113,6 +115,7 @@
             [directionUp]="true"
             (toggleLabel)="onToggleLabel($event)"
             (createLabel)="onCreateLabel($event)"
+            (closePopover)="showLabelMenu = false"
           ></app-label-popover>
         </div>
 

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, HostListener } from '@angular/core';
 import { Label } from '../../dashboard/dashboard.component';
 
 @Component({
@@ -13,8 +13,23 @@ export class LabelPopoverComponent {
 
   @Output() toggleLabel = new EventEmitter<Label>();
   @Output() createLabel = new EventEmitter<string>();
+  @Output() closePopover = new EventEmitter<void>();
 
   searchQuery = '';
+
+  constructor(private elementRef: ElementRef) {}
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.elementRef.nativeElement.contains(event.target as Node)) {
+      this.closePopover.emit();
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.closePopover.emit();
+  }
 
   get filteredLabels(): Label[] {
     if (!this.searchQuery.trim()) return this.labels;
@@ -40,3 +55,4 @@ export class LabelPopoverComponent {
     }
   }
 }
+

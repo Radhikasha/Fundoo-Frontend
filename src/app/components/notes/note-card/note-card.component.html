@@ -93,6 +93,7 @@
         [currentReminder]="note.reminder || null"
         (reminderSet)="onSetReminder($event)"
         (reminderRemoved)="onRemoveReminder()"
+        (pickerClose)="showReminderPicker = false"
       ></app-reminder-picker>
     </div>
 
@@ -110,6 +111,7 @@
         [selectedColor]="note.color"
         [colors]="colors"
         (colorSelect)="onSelectColor($event)"
+        (pickerClose)="showColorPicker = false"
       ></app-color-picker>
     </div>
 
@@ -128,6 +130,7 @@
         [noteLabels]="note.labels"
         (toggleLabel)="onToggleLabel($event)"
         (createLabel)="onCreateLabel($event)"
+        (closePopover)="showLabelMenu = false"
       ></app-label-popover>
     </div>
 

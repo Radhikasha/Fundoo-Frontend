@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, HostListener } from '@angular/core';
 
 export interface ColorOption {
   name: string;
@@ -29,6 +29,21 @@ export class ColorPickerComponent {
   @Input() directionUp: boolean = false;
 
   @Output() colorSelect = new EventEmitter<string>();
+  @Output() pickerClose = new EventEmitter<void>();
+
+  constructor(private elementRef: ElementRef) {}
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.elementRef.nativeElement.contains(event.target as Node)) {
+      this.pickerClose.emit();
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.pickerClose.emit();
+  }
 
   selectColor(colorValue: string, event: Event): void {
     event.stopPropagation();
