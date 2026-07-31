@@ -23,12 +23,19 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('email');
-          this.toastService.error('Session expired or unauthorized. Please sign in again.');
-          const currentUrl = this.router.routerState.snapshot.url;
-          const urlTree = this.router.parseUrl(currentUrl);
-          this.router.navigate(['/signin'], { queryParams: urlTree.queryParams, replaceUrl: true });
+          const currentUrl = this.router.url || '';
+          const isPublicRoute = currentUrl.includes('/signin') || 
+                                currentUrl.includes('/signup') || 
+                                currentUrl.includes('/forgot') || 
+                                currentUrl.includes('/reset-password') || 
+                                currentUrl.includes('/resetpassword');
+          if (!isPublicRoute) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('email');
+            this.toastService.error('Session expired or unauthorized. Please sign in again.');
+            const urlTree = this.router.parseUrl(currentUrl);
+            this.router.navigate(['/signin'], { queryParams: urlTree.queryParams, replaceUrl: true });
+          }
         }
         return throwError(() => error);
       })
