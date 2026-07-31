@@ -41,6 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   userEmail = '';
   isRefreshing = false;
   isSearching = false;
+  isLoadingNotes = false;
   private searchTimeout: any;
 
   // Data
@@ -143,6 +144,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   loadNotes(): void {
+    this.isLoadingNotes = true;
     let apiCall;
     if (this.activeSection.startsWith('label_')) {
       const labelId = +this.activeSection.replace('label_', '');
@@ -168,9 +170,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         this.notes = this.mapNotes(response.data);
         this.checkQueryNoteId();
+        this.isLoadingNotes = false;
       },
       error: (err: any) => {
         console.error('Failed to load notes:', err);
+        this.isLoadingNotes = false;
         if (err.status === 401 || err.status === 403) {
           localStorage.removeItem('token');
           this.router.navigate(['/signin'], { queryParams: this.route.snapshot.queryParams });

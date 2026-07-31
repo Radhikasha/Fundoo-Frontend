@@ -105,6 +105,45 @@
   margin: 0;
 }
 
+/* ═══════════ CONTENT LOADING SPINNER ═══════════ */
+.content-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  width: 100%;
+  padding: 40px 0;
+}
+
+.loading-spinner-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.md-spinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid #e8eaed;
+  border-top-color: #1a73e8;
+  border-radius: 50%;
+  animation: mdSpin 0.75s linear infinite;
+}
+
+@keyframes mdSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-family: 'Google Sans', 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #5f6368;
+  margin: 0;
+}
+
 /* ═══════════ RESPONSIVE BREAKPOINTS ═══════════ */
 
 /* Tablet & Mobile Screens (<= 768px) */

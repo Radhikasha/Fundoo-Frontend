@@ -10,6 +10,7 @@ export class SidebarComponent {
   @Input() sidebarExpanded: boolean = true;
   @Input() activeSection: string = 'notes';
   @Input() labels: Label[] = [];
+  @Input() isLoading: boolean = false;
 
   @Output() sectionSelect = new EventEmitter<string>();
   @Output() labelSelect = new EventEmitter<Label>();

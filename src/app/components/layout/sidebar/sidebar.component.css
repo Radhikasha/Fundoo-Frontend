@@ -123,3 +123,14 @@
     margin-right: 20px;
   }
 }
+
+/* ═══════════ LOADING SPINNER ANIMATION ═══════════ */
+@keyframes sidebarSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinning-loader {
+  animation: sidebarSpin 0.75s linear infinite;
+  color: #1a73e8 !important;
+}

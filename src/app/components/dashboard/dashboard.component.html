@@ -30,6 +30,7 @@
       [sidebarExpanded]="sidebarExpanded"
       [activeSection]="activeSection"
       [labels]="labels"
+      [isLoading]="isLoadingNotes"
       (sectionSelect)="setActiveSection($event)"
       (labelSelect)="selectLabelSection($event)"
       (openEditLabels)="openEditLabelsModal()"
@@ -50,8 +51,16 @@
         (openCollaborator)="openCollaboratorModal()"
       ></app-note-create>
 
+      <!-- ── MAIN CONTENT LOADING STATE ── -->
+      <div class="content-loading-state" *ngIf="isLoadingNotes">
+        <div class="loading-spinner-wrapper">
+          <div class="md-spinner"></div>
+          <p class="loading-text">Loading notes...</p>
+        </div>
+      </div>
+
       <!-- ── EMPTY STATES ── -->
-      <div class="empty-state" *ngIf="filteredNotes.length === 0">
+      <div class="empty-state" *ngIf="!isLoadingNotes && filteredNotes.length === 0">
         <span class="material-icons-outlined empty-icon" *ngIf="activeSection === 'notes'">lightbulb</span>
         <span class="material-icons-outlined empty-icon" *ngIf="activeSection.startsWith('label_')">label</span>
         <span class="material-icons-outlined empty-icon" *ngIf="activeSection === 'archive'">archive</span>
@@ -66,7 +75,7 @@
       </div>
 
       <!-- ── PINNED NOTES ── -->
-      <div *ngIf="hasPinnedNotes" class="notes-section">
+      <div *ngIf="!isLoadingNotes && hasPinnedNotes" class="notes-section">
         <p class="section-label">PINNED</p>
         <div class="notes-grid" [class.list-view]="!isGridView">
           <app-note-card
@@ -93,14 +102,14 @@
       </div>
 
       <!-- ── OTHER NOTES ── -->
-      <div *ngIf="hasPinnedNotes && unpinnedNotes.length > 0" class="notes-section">
+      <div *ngIf="!isLoadingNotes && hasPinnedNotes && unpinnedNotes.length > 0" class="notes-section">
         <p class="section-label">OTHERS</p>
       </div>
 
       <div
         class="notes-grid"
         [class.list-view]="!isGridView"
-        *ngIf="activeSection !== 'trash' && (hasPinnedNotes ? unpinnedNotes.length > 0 : filteredNotes.length > 0)"
+        *ngIf="!isLoadingNotes && activeSection !== 'trash' && (hasPinnedNotes ? unpinnedNotes.length > 0 : filteredNotes.length > 0)"
       >
         <app-note-card
           *ngFor="let note of (hasPinnedNotes ? unpinnedNotes : filteredNotes)"
@@ -128,7 +137,7 @@
       <div
         class="notes-grid"
         [class.list-view]="!isGridView"
-        *ngIf="activeSection === 'trash' && filteredNotes.length > 0"
+        *ngIf="!isLoadingNotes && activeSection === 'trash' && filteredNotes.length > 0"
       >
         <app-note-card
           *ngFor="let note of filteredNotes"

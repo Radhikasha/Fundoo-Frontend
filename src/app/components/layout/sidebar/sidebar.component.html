@@ -6,7 +6,8 @@
     (click)="selectSection('notes')"
     title="Notes"
   >
-    <span class="material-icons-outlined sidebar-icon">lightbulb</span>
+    <span class="material-icons-outlined sidebar-icon spinning-loader" *ngIf="isLoading && activeSection === 'notes'">sync</span>
+    <span class="material-icons-outlined sidebar-icon" *ngIf="!(isLoading && activeSection === 'notes')">lightbulb</span>
     <span class="sidebar-label">Notes</span>
   </div>
 
@@ -17,7 +18,8 @@
     (click)="selectSection('reminders')"
     title="Reminders"
   >
-    <span class="material-icons-outlined sidebar-icon">notifications</span>
+    <span class="material-icons-outlined sidebar-icon spinning-loader" *ngIf="isLoading && activeSection === 'reminders'">sync</span>
+    <span class="material-icons-outlined sidebar-icon" *ngIf="!(isLoading && activeSection === 'reminders')">notifications</span>
     <span class="sidebar-label">Reminders</span>
   </div>
 
@@ -30,7 +32,8 @@
     (click)="selectLabel(label)"
     [title]="label.name"
   >
-    <span class="material-icons-outlined sidebar-icon">label</span>
+    <span class="material-icons-outlined sidebar-icon spinning-loader" *ngIf="isLoading && activeSection === 'label_' + label.id">sync</span>
+    <span class="material-icons-outlined sidebar-icon" *ngIf="!(isLoading && activeSection === 'label_' + label.id)">label</span>
     <span class="sidebar-label">{{ label.name }}</span>
   </div>
 
@@ -47,7 +50,8 @@
     (click)="selectSection('archive')"
     title="Archive"
   >
-    <span class="material-icons-outlined sidebar-icon">archive</span>
+    <span class="material-icons-outlined sidebar-icon spinning-loader" *ngIf="isLoading && activeSection === 'archive'">sync</span>
+    <span class="material-icons-outlined sidebar-icon" *ngIf="!(isLoading && activeSection === 'archive')">archive</span>
     <span class="sidebar-label">Archive</span>
   </div>
 
@@ -58,7 +62,8 @@
     (click)="selectSection('trash')"
     title="Trash"
   >
-    <span class="material-icons-outlined sidebar-icon">delete</span>
+    <span class="material-icons-outlined sidebar-icon spinning-loader" *ngIf="isLoading && activeSection === 'trash'">sync</span>
+    <span class="material-icons-outlined sidebar-icon" *ngIf="!(isLoading && activeSection === 'trash')">delete</span>
     <span class="sidebar-label">Trash</span>
   </div>
 </nav>
