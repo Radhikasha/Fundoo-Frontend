@@ -21,6 +21,7 @@ import { ColorPickerComponent } from './components/shared/color-picker/color-pic
 import { CollaboratorModalComponent } from './components/shared/collaborator-modal/collaborator-modal.component';
 import { ToastComponent } from './components/shared/toast/toast.component';
 import { ReminderPickerComponent } from './components/shared/reminder-picker/reminder-picker.component';
+import { HighlightPipe } from './pipes/highlight.pipe';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
@@ -41,7 +42,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     ColorPickerComponent,
     CollaboratorModalComponent,
     ToastComponent,
-    ReminderPickerComponent
+    ReminderPickerComponent,
+    HighlightPipe
   ],
   imports: [
     BrowserModule,

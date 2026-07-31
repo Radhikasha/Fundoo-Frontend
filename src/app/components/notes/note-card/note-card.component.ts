@@ -13,6 +13,7 @@ export class NoteCardComponent {
   @Input() activeSection: string = 'notes';
   @Input() labels: Label[] = [];
   @Input() colors: ColorOption[] = [];
+  @Input() searchQuery: string = '';
 
   constructor(public reminderService: ReminderService) {}
 

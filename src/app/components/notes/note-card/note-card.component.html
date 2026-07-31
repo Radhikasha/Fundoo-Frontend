@@ -15,8 +15,8 @@
     >
       <span class="material-icons-outlined">push_pin</span>
     </button>
-    <h3 class="note-title" [class.empty-title]="!note.title">{{ note.title }}</h3>
-    <p class="note-content" *ngIf="note.content">{{ note.content }}</p>
+    <h3 class="note-title" [class.empty-title]="!note.title" [innerHTML]="note.title | highlight: searchQuery"></h3>
+    <p class="note-content" *ngIf="note.content" [innerHTML]="note.content | highlight: searchQuery"></p>
 
     <!-- Reminder Chip -->
     <div class="reminder-chip" *ngIf="note.reminder && activeSection !== 'trash'" [class.overdue]="reminderService.isOverdue(note.reminder)">

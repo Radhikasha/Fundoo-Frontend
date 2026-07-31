@@ -73,6 +73,7 @@
             [activeSection]="activeSection"
             [labels]="labels"
             [colors]="colors"
+            [searchQuery]="searchQuery"
             (cardClick)="openEditModal($event)"
             (togglePin)="togglePin($event)"
             (archiveNote)="archiveNote($event)"
@@ -105,6 +106,7 @@
           [activeSection]="activeSection"
           [labels]="labels"
           [colors]="colors"
+          [searchQuery]="searchQuery"
           (cardClick)="openEditModal($event)"
           (togglePin)="togglePin($event)"
           (archiveNote)="archiveNote($event)"
@@ -132,6 +134,7 @@
           [activeSection]="activeSection"
           [labels]="labels"
           [colors]="colors"
+          [searchQuery]="searchQuery"
           (restoreNote)="restoreNote($event)"
           (deleteForever)="deleteForever($event)"
         ></app-note-card>

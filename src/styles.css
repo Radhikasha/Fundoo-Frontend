@@ -35,3 +35,13 @@ textarea:focus {
 ::-webkit-scrollbar-thumb:hover {
   background: #bdc1c6;
 }
+
+/* Search text highlight styling */
+mark.highlight-text,
+.highlight-text {
+  background-color: #fff0b3;
+  color: #202124;
+  font-weight: 600;
+  padding: 0 2px;
+  border-radius: 2px;
+}
