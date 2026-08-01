@@ -10,10 +10,12 @@
       class="pin-btn"
       [class.pinned]="note.pinned"
       (click)="onTogglePin($event)"
+      [disabled]="loadingAction === 'pin'"
       title="Pin note"
       *ngIf="activeSection !== 'trash'"
     >
-      <span class="material-icons-outlined">push_pin</span>
+      <span class="btn-spinner" *ngIf="loadingAction === 'pin'"></span>
+      <span class="material-icons-outlined" *ngIf="loadingAction !== 'pin'">push_pin</span>
     </button>
     <h3 class="note-title" [class.empty-title]="!note.title" [innerHTML]="note.title | highlight: searchQuery"></h3>
     <p class="note-content" *ngIf="note.content" [innerHTML]="note.content | highlight: searchQuery"></p>
@@ -64,18 +66,22 @@
       class="icon-btn icon-btn-sm"
       *ngIf="activeSection !== 'archive'"
       (click)="onArchive($event)"
+      [disabled]="loadingAction === 'archive'"
       title="Archive"
     >
-      <span class="material-icons-outlined">archive</span>
+      <span class="btn-spinner" *ngIf="loadingAction === 'archive'"></span>
+      <span class="material-icons-outlined" *ngIf="loadingAction !== 'archive'">archive</span>
     </button>
 
     <button
       class="icon-btn icon-btn-sm"
       *ngIf="activeSection === 'archive'"
       (click)="onUnarchive($event)"
+      [disabled]="loadingAction === 'archive'"
       title="Unarchive"
     >
-      <span class="material-icons-outlined">unarchive</span>
+      <span class="btn-spinner" *ngIf="loadingAction === 'archive'"></span>
+      <span class="material-icons-outlined" *ngIf="loadingAction !== 'archive'">unarchive</span>
     </button>
 
     <!-- Reminder Bell -->
@@ -146,9 +152,11 @@
     <button
       class="icon-btn icon-btn-sm"
       (click)="onTrash($event)"
+      [disabled]="loadingAction === 'trash'"
       title="Delete note"
     >
-      <span class="material-icons-outlined">delete</span>
+      <span class="btn-spinner" *ngIf="loadingAction === 'trash'"></span>
+      <span class="material-icons-outlined" *ngIf="loadingAction !== 'trash'">delete</span>
     </button>
   </div>
 
@@ -157,16 +165,20 @@
     <button
       class="icon-btn icon-btn-sm"
       (click)="onRestore($event)"
+      [disabled]="loadingAction === 'restore'"
       title="Restore"
     >
-      <span class="material-icons-outlined">restore_from_trash</span>
+      <span class="btn-spinner" *ngIf="loadingAction === 'restore'"></span>
+      <span class="material-icons-outlined" *ngIf="loadingAction !== 'restore'">restore_from_trash</span>
     </button>
     <button
       class="icon-btn icon-btn-sm"
       (click)="onDeleteForever($event)"
+      [disabled]="loadingAction === 'deleteForever'"
       title="Delete forever"
     >
-      <span class="material-icons-outlined">delete_forever</span>
+      <span class="btn-spinner" *ngIf="loadingAction === 'deleteForever'"></span>
+      <span class="material-icons-outlined" *ngIf="loadingAction !== 'deleteForever'">delete_forever</span>
     </button>
   </div>
 </div>

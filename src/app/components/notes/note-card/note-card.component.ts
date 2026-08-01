@@ -35,6 +35,17 @@ export class NoteCardComponent {
   showColorPicker = false;
   showLabelMenu = false;
   showReminderPicker = false;
+  loadingAction: string | null = null;
+
+  private setLoading(action: string): void {
+    this.loadingAction = action;
+    // Auto-clear after 2s as a safety net in case parent doesn't signal back
+    setTimeout(() => { if (this.loadingAction === action) this.loadingAction = null; }, 2000);
+  }
+
+  clearLoading(): void {
+    this.loadingAction = null;
+  }
 
   onCardClick(): void {
     if (this.activeSection !== 'trash') {
@@ -44,16 +55,19 @@ export class NoteCardComponent {
 
   onTogglePin(event: Event): void {
     event.stopPropagation();
+    this.setLoading('pin');
     this.togglePin.emit({ note: this.note, event });
   }
 
   onArchive(event: Event): void {
     event.stopPropagation();
+    this.setLoading('archive');
     this.archiveNote.emit({ note: this.note, event });
   }
 
   onUnarchive(event: Event): void {
     event.stopPropagation();
+    this.setLoading('archive');
     this.unarchiveNote.emit({ note: this.note, event });
   }
 
@@ -64,6 +78,7 @@ export class NoteCardComponent {
   }
 
   onSelectColor(color: string): void {
+    this.setLoading('color');
     this.setColor.emit({ note: this.note, color });
     this.showColorPicker = false;
   }
@@ -94,16 +109,19 @@ export class NoteCardComponent {
 
   onTrash(event: Event): void {
     event.stopPropagation();
+    this.setLoading('trash');
     this.trashNote.emit({ note: this.note, event });
   }
 
   onRestore(event: Event): void {
     event.stopPropagation();
+    this.setLoading('restore');
     this.restoreNote.emit({ note: this.note, event });
   }
 
   onDeleteForever(event: Event): void {
     event.stopPropagation();
+    this.setLoading('deleteForever');
     this.deleteForever.emit({ note: this.note, event });
   }
 
