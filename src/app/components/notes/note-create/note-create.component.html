@@ -1,11 +1,6 @@
 <div class="note-input-wrapper">
   <!-- Collapsed state -->
-  <div
-    class="note-input-collapsed"
-    *ngIf="!isInputExpanded"
-    (click)="expandInput()"
-    id="note-input-collapsed"
-  >
+  <div class="note-input-collapsed" *ngIf="!isInputExpanded" (click)="expandInput()" id="note-input-collapsed">
     <span class="collapsed-text">Take a note...</span>
     <div class="collapsed-icons">
       <span class="material-icons-outlined">check_box</span>
@@ -15,127 +10,54 @@
   </div>
 
   <!-- Expanded state -->
-  <div
-    class="note-input-expanded"
-    *ngIf="isInputExpanded"
-    [style.backgroundColor]="newNoteColor"
-  >
+  <div class="note-input-expanded" *ngIf="isInputExpanded" [style.backgroundColor]="newNoteColor">
     <div class="note-input-header">
-      <input
-        type="text"
-        class="input-title"
-        placeholder="Title"
-        [(ngModel)]="newNoteTitle"
-        id="note-title-input"
-      />
-      <button
-        class="pin-btn"
-        [class.pinned]="newNotePinned"
-        (click)="newNotePinned = !newNotePinned"
-        title="Pin note"
-      >
+      <input type="text" class="input-title" placeholder="Title" [(ngModel)]="newNoteTitle" id="note-title-input" />
+      <button class="pin-btn" [class.pinned]="newNotePinned" (click)="newNotePinned = !newNotePinned" title="Pin note">
         <span class="material-icons-outlined">push_pin</span>
       </button>
     </div>
 
-    <textarea
-      #contentTextarea
-      class="input-content"
-      placeholder="Take a note..."
-      [(ngModel)]="newNoteContent"
-      (input)="autoResize($event)"
-      (keyup)="autoResize($event)"
-      rows="1"
-      id="note-content-input"
-    ></textarea>
+    <textarea #contentTextarea class="input-content" placeholder="Take a note..." [(ngModel)]="newNoteContent"
+      (input)="autoResize($event)" (keyup)="autoResize($event)" rows="1" id="note-content-input"></textarea>
 
     <!-- Selected Labels Chips -->
     <div class="note-chips" *ngIf="newNoteLabels.length > 0">
       <span *ngFor="let label of newNoteLabels" class="label-chip">
         <span class="label-chip-text">{{ label.name }}</span>
-        <span
-          class="material-icons-outlined label-chip-remove"
-          (click)="toggleLabelForNewNote(label, $event)"
-        >close</span>
-      </span>
-    </div>
-
-    <!-- Collaborator Icons -->
-    <div class="collab-chips" *ngIf="newNoteCollaborators.length > 0">
-      <span
-        *ngFor="let collab of newNoteCollaborators"
-        class="collab-avatar"
-        (click)="onOpenCollaborator($event)"
-        [title]="'Shared with ' + collab"
-      >
-        <span class="collab-avatar-text">{{ getInitial(collab) }}</span>
+        <span class="material-icons-outlined label-chip-remove"
+          (click)="toggleLabelForNewNote(label, $event)">close</span>
       </span>
     </div>
 
     <div class="input-toolbar">
       <div class="input-toolbar-left">
-        <!-- Collaborator -->
-        <button
-          class="icon-btn icon-btn-sm"
-          [class.collaborator-active]="newNoteCollaborators.length > 0"
-          (click)="onOpenCollaborator($event)"
-          title="Collaborator"
-        >
-          <span class="material-icons-outlined">person_add</span>
-        </button>
-
         <!-- Background Color -->
         <div class="color-picker-inline">
-          <button
-            class="icon-btn icon-btn-sm"
-            (click)="toggleColorPicker($event)"
-            title="Background options"
-          >
+          <button class="icon-btn icon-btn-sm" (click)="toggleColorPicker($event)" title="Background options">
             <span class="material-icons-outlined">palette</span>
           </button>
-          <app-color-picker
-            *ngIf="showColorPicker"
-            [selectedColor]="newNoteColor"
-            [colors]="colors"
-            (colorSelect)="setNewNoteColor($event)"
-            (pickerClose)="showColorPicker = false"
-          ></app-color-picker>
+          <app-color-picker *ngIf="showColorPicker" [selectedColor]="newNoteColor" [colors]="colors"
+            (colorSelect)="setNewNoteColor($event)" (pickerClose)="showColorPicker = false"></app-color-picker>
         </div>
 
         <!-- Add Label -->
         <div class="color-picker-inline">
-          <button
-            class="icon-btn icon-btn-sm"
-            (click)="toggleLabelMenu($event)"
-            title="Add label"
-          >
+          <button class="icon-btn icon-btn-sm" (click)="toggleLabelMenu($event)" title="Add label">
             <span class="material-icons-outlined">label</span>
           </button>
-          <app-label-popover
-            *ngIf="showLabelMenu"
-            [labels]="labels"
-            [noteLabels]="newNoteLabels"
-            (toggleLabel)="toggleLabelForNewNote($event)"
-            (closePopover)="showLabelMenu = false"
-          ></app-label-popover>
+          <app-label-popover *ngIf="showLabelMenu" [labels]="labels" [noteLabels]="newNoteLabels"
+            (toggleLabel)="toggleLabelForNewNote($event)" (closePopover)="showLabelMenu = false"></app-label-popover>
         </div>
 
         <!-- Archive -->
-        <button
-          class="icon-btn icon-btn-sm"
-          (click)="newNoteArchived = !newNoteArchived"
-          [class.active-icon]="newNoteArchived"
-          title="Archive"
-        >
+        <button class="icon-btn icon-btn-sm" (click)="newNoteArchived = !newNoteArchived"
+          [class.active-icon]="newNoteArchived" title="Archive">
           <span class="material-icons-outlined">archive</span>
         </button>
 
         <!-- Discard/Trash -->
-        <button
-          class="icon-btn icon-btn-sm"
-          (click)="onTrashNewNote()"
-          title="Delete / Discard"
-        >
+        <button class="icon-btn icon-btn-sm" (click)="onTrashNewNote()" title="Delete / Discard">
           <span class="material-icons-outlined">delete</span>
         </button>
       </div>
