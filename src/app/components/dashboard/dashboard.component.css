@@ -59,13 +59,19 @@
 }
 
 .notes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  column-count: 4;
+  column-gap: 16px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto 32px auto;
-  align-items: start;
+  box-sizing: border-box;
+}
+
+.notes-grid app-note-card {
+  display: inline-block;
+  width: 100%;
+  break-inside: avoid;
+  margin-bottom: 16px;
   box-sizing: border-box;
 }
 
@@ -168,8 +174,12 @@
   }
 
   .notes-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 12px;
+    column-count: 2;
+    column-gap: 12px;
+  }
+
+  .notes-grid app-note-card {
+    margin-bottom: 12px;
   }
 }
 
@@ -181,7 +191,7 @@
   }
 
   .notes-grid {
-    grid-template-columns: 1fr;
+    column-count: 1;
   }
 
   .empty-icon {
