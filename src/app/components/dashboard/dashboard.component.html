@@ -77,7 +77,35 @@
       <!-- ── PINNED NOTES ── -->
       <div *ngIf="!isLoadingNotes && hasPinnedNotes" class="notes-section">
         <p class="section-label">PINNED</p>
-        <div class="notes-grid" [class.list-view]="!isGridView">
+
+        <!-- Grid View: Masonry -->
+        <ngx-masonry *ngIf="isGridView" [options]="masonryOptions" class="masonry-grid">
+          <div class="masonry-sizer"></div>
+          <div ngxMasonryItem class="masonry-item" *ngFor="let note of pinnedNotes">
+            <app-note-card
+              [note]="note"
+              [activeSection]="activeSection"
+              [labels]="labels"
+              [colors]="colors"
+              [searchQuery]="searchQuery"
+              (cardClick)="openEditModal($event)"
+              (togglePin)="togglePin($event)"
+              (archiveNote)="archiveNote($event)"
+              (unarchiveNote)="unarchiveNote($event)"
+              (setColor)="setNoteColor($event)"
+              (toggleLabel)="toggleLabelForNote($event)"
+              (removeLabel)="removeLabelFromNote($event)"
+              (createLabel)="createLabelFromMenu($event)"
+              (openCollaborator)="openCollaboratorModal($event)"
+              (trashNote)="trashNote($event)"
+              (setReminder)="handleSetReminder($event)"
+              (removeReminder)="handleRemoveReminder($event)"
+            ></app-note-card>
+          </div>
+        </ngx-masonry>
+
+        <!-- List View: original layout -->
+        <div class="notes-grid list-view" *ngIf="!isGridView">
           <app-note-card
             *ngFor="let note of pinnedNotes"
             [note]="note"
@@ -99,6 +127,7 @@
             (removeReminder)="handleRemoveReminder($event)"
           ></app-note-card>
         </div>
+
       </div>
 
       <!-- ── OTHER NOTES ── -->
@@ -106,10 +135,40 @@
         <p class="section-label">OTHERS</p>
       </div>
 
+      <!-- Grid View: Masonry -->
+      <ngx-masonry
+        *ngIf="isGridView && !isLoadingNotes && activeSection !== 'trash' && (hasPinnedNotes ? unpinnedNotes.length > 0 : filteredNotes.length > 0)"
+        [options]="masonryOptions"
+        class="masonry-grid"
+      >
+        <div class="masonry-sizer"></div>
+        <div ngxMasonryItem class="masonry-item" *ngFor="let note of (hasPinnedNotes ? unpinnedNotes : filteredNotes)">
+          <app-note-card
+            [note]="note"
+            [activeSection]="activeSection"
+            [labels]="labels"
+            [colors]="colors"
+            [searchQuery]="searchQuery"
+            (cardClick)="openEditModal($event)"
+            (togglePin)="togglePin($event)"
+            (archiveNote)="archiveNote($event)"
+            (unarchiveNote)="unarchiveNote($event)"
+            (setColor)="setNoteColor($event)"
+            (toggleLabel)="toggleLabelForNote($event)"
+            (removeLabel)="removeLabelFromNote($event)"
+            (createLabel)="createLabelFromMenu($event)"
+            (openCollaborator)="openCollaboratorModal($event)"
+            (trashNote)="trashNote($event)"
+            (setReminder)="handleSetReminder($event)"
+            (removeReminder)="handleRemoveReminder($event)"
+          ></app-note-card>
+        </div>
+      </ngx-masonry>
+
+      <!-- List View: original layout -->
       <div
-        class="notes-grid"
-        [class.list-view]="!isGridView"
-        *ngIf="!isLoadingNotes && activeSection !== 'trash' && (hasPinnedNotes ? unpinnedNotes.length > 0 : filteredNotes.length > 0)"
+        class="notes-grid list-view"
+        *ngIf="!isGridView && !isLoadingNotes && activeSection !== 'trash' && (hasPinnedNotes ? unpinnedNotes.length > 0 : filteredNotes.length > 0)"
       >
         <app-note-card
           *ngFor="let note of (hasPinnedNotes ? unpinnedNotes : filteredNotes)"
@@ -134,10 +193,30 @@
       </div>
 
       <!-- ── TRASH NOTES ── -->
+      <!-- Grid View: Masonry -->
+      <ngx-masonry
+        *ngIf="isGridView && !isLoadingNotes && activeSection === 'trash' && filteredNotes.length > 0"
+        [options]="masonryOptions"
+        class="masonry-grid"
+      >
+        <div class="masonry-sizer"></div>
+        <div ngxMasonryItem class="masonry-item" *ngFor="let note of filteredNotes">
+          <app-note-card
+            [note]="note"
+            [activeSection]="activeSection"
+            [labels]="labels"
+            [colors]="colors"
+            [searchQuery]="searchQuery"
+            (restoreNote)="restoreNote($event)"
+            (deleteForever)="deleteForever($event)"
+          ></app-note-card>
+        </div>
+      </ngx-masonry>
+
+      <!-- List View: original layout -->
       <div
-        class="notes-grid"
-        [class.list-view]="!isGridView"
-        *ngIf="!isLoadingNotes && activeSection === 'trash' && filteredNotes.length > 0"
+        class="notes-grid list-view"
+        *ngIf="!isGridView && !isLoadingNotes && activeSection === 'trash' && filteredNotes.length > 0"
       >
         <app-note-card
           *ngFor="let note of filteredNotes"

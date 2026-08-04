@@ -33,6 +33,14 @@ export interface Note {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  // Masonry Options
+  masonryOptions = {
+    gutter: 16,
+    fitWidth: false,
+    horizontalOrder: true,
+    columnWidth: '.masonry-sizer'
+  };
+
   // Layout & Navigation State
   sidebarExpanded = true;
   activeSection = 'notes';

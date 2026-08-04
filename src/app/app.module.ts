@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NgxMasonryModule } from 'ngx-masonry';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -49,7 +50,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgxMasonryModule
   ],
   providers: [
     {
