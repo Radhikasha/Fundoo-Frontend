@@ -67,27 +67,6 @@
   box-sizing: border-box;
 }
 
-/* ── MASONRY GRID ── */
-.masonry-grid {
-  width: 100% !important;
-  max-width: 1200px;
-  margin: 0 auto 32px auto;
-}
-
-.masonry-sizer,
-.masonry-item {
-  width: calc(25% - 12px); /* 4 columns with 16px gutter */
-  box-sizing: border-box;
-}
-
-.masonry-sizer {
-  height: 0;
-  visibility: hidden;
-}
-
-.masonry-item {
-  margin-bottom: 16px;
-}
 
 .notes-grid app-note-card {
   display: inline-block;
@@ -200,7 +179,6 @@
     column-gap: 12px;
   }
 
-  .masonry-sizer,
   .masonry-item {
     width: calc(50% - 6px); /* 2 columns on tablet */
   }
@@ -221,7 +199,6 @@
     column-count: 1;
   }
 
-  .masonry-sizer,
   .masonry-item {
     width: 100%; /* 1 column on mobile */
   }

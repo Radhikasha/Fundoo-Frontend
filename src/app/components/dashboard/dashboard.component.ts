@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChildren, QueryList } from '@angular/core';
+import { NgxMasonryComponent } from 'ngx-masonry';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NoteService } from '../../services/note.service';
 import { LabelService } from '../../services/label.service';
@@ -37,9 +38,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   masonryOptions = {
     gutter: 16,
     fitWidth: false,
-    horizontalOrder: true,
-    columnWidth: '.masonry-sizer'
+    horizontalOrder: true
   };
+  masonryUpdateLayout = false;
+
+  @ViewChildren(NgxMasonryComponent) masonryRefs!: QueryList<NgxMasonryComponent>;
 
   // Layout & Navigation State
   sidebarExpanded = true;
@@ -87,6 +90,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private reminderService: ReminderService
   ) { }
+
+  /** Force all masonry instances to reload and re-layout */
+  private refreshMasonry(): void {
+    setTimeout(() => {
+      this.masonryUpdateLayout = !this.masonryUpdateLayout;
+      this.masonryRefs?.forEach(m => {
+        try {
+          m.reloadItems();
+          m.layout();
+        } catch (e) { /* ignore if not ready */ }
+      });
+    }, 150);
+  }
 
   private pendingNoteId: number | null = null;
 
@@ -179,6 +195,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.notes = this.mapNotes(response.data);
         this.checkQueryNoteId();
         this.isLoadingNotes = false;
+        this.refreshMasonry(); // tell masonry to layout loaded notes
       },
       error: (err: any) => {
         console.error('Failed to load notes:', err);
@@ -415,7 +432,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
 
         if (!noteData.archived || this.activeSection === 'archive') {
-          this.notes.unshift(note);
+          this.notes = [note, ...this.notes]; // new array ref → change detection + masonry update
+          this.refreshMasonry();
         }
       },
       error: (err: any) => console.error('Failed to create note:', err)
